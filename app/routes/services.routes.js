@@ -13,5 +13,6 @@ router.get('/', verifyAccessToken, controller.getAllServices);
 router.post('/', verifyAccessToken, controller.createService);
 router.put('/', verifyAccessToken, controller.updateService);
 router.delete('/:id', verifyAccessToken, controller.deleteService);
+router.get('/getList', controller.getAllServices);
 
 module.exports = router;
