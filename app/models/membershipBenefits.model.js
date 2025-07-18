@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const servicesSchema = new mongoose.Schema({
+const membershipBenefitsSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -13,12 +13,8 @@ const servicesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-    inActive: {
-    type: Boolean,
-    required: false,
-  },
 }); 
 
-const Services = mongoose.model('Services', servicesSchema);
+const MembershipBenefits = mongoose.model('membershipBenefits', membershipBenefitsSchema);
 
-module.exports = Services;
+module.exports = MembershipBenefits;

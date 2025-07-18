@@ -12,7 +12,8 @@ const morgan = require('../morgan-config'); // Import the custom Morgan configur
 const rolesSeeding = require('./seed/role.seed');
 const userRoutes = require('./routes/user.routes');
 const servicesRoutes = require('./routes/services.routes');
-
+const membershipBenefitsRoutes = require('./routes/membershipBenefits.routes');
+//const howItWorksRoutes = require('./routes/howItWorks.routes');
 const server = express();
 
 // Enable security headers with helmet
@@ -23,7 +24,8 @@ server.use(compression());
 
 // Set up CORS for specific origins
 const corsOptions = {
-  origin: clientConfig.ORIGIN,
+ origin: clientConfig.ORIGIN,
+  //origin:'http://localhost:3000'
 };
 server.use(cors(corsOptions));
 
@@ -69,5 +71,6 @@ server.get('/', (req, res) => {
 server.use('/api/auth', authRoutes);
 server.use('/api/user', userRoutes);
 server.use('/api/services', servicesRoutes);
-
+server.use('/api/membershipBenefits', membershipBenefitsRoutes);
+//server.use('/api/howItWorks', howItWorksRoutes)
 module.exports = server;
