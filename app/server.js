@@ -13,7 +13,8 @@ const rolesSeeding = require('./seed/role.seed');
 const userRoutes = require('./routes/user.routes');
 const servicesRoutes = require('./routes/services.routes');
 const membershipBenefitsRoutes = require('./routes/membershipBenefits.routes');
-//const howItWorksRoutes = require('./routes/howItWorks.routes');
+const howItWorksRoutes = require('./routes/howItWorks.routes');
+const testimonialRoutes = require('./routes/testimonial.routes');
 const server = express();
 
 // Enable security headers with helmet
@@ -24,8 +25,8 @@ server.use(compression());
 
 // Set up CORS for specific origins
 const corsOptions = {
- origin: clientConfig.ORIGIN,
-  //origin:'http://localhost:3000'
+ //origin: clientConfig.ORIGIN,
+  origin:'http://localhost:3000'
 };
 server.use(cors(corsOptions));
 
@@ -72,5 +73,6 @@ server.use('/api/auth', authRoutes);
 server.use('/api/user', userRoutes);
 server.use('/api/services', servicesRoutes);
 server.use('/api/membershipBenefits', membershipBenefitsRoutes);
-//server.use('/api/howItWorks', howItWorksRoutes)
+server.use('/api/howItWorks', howItWorksRoutes)
+server.use('/api/testimonial', testimonialRoutes)
 module.exports = server;

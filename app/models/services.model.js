@@ -15,7 +15,7 @@ const servicesSchema = new mongoose.Schema({
   },
     inActive: {
     type: Boolean,
-    required: false,
+    default: false,
   },
 }); 
 
