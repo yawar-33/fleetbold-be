@@ -13,6 +13,8 @@ const rolesSeeding = require('./seed/role.seed');
 const userRoutes = require('./routes/user.routes');
 const servicesRoutes = require('./routes/services.routes');
 const membershipBenefitsRoutes = require('./routes/membershipBenefits.routes');
+const jobCategoryRoutes = require('./routes/jobCategory.routes');
+const jobRoutes = require('./routes/job.routes');
 //const howItWorksRoutes = require('./routes/howItWorks.routes');
 const server = express();
 
@@ -72,5 +74,7 @@ server.use('/api/auth', authRoutes);
 server.use('/api/user', userRoutes);
 server.use('/api/services', servicesRoutes);
 server.use('/api/membershipBenefits', membershipBenefitsRoutes);
+server.use('/api/jobCategory', jobCategoryRoutes);
+server.use('/api/job', jobRoutes);
 //server.use('/api/howItWorks', howItWorksRoutes)
 module.exports = server;

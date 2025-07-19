@@ -14,5 +14,7 @@ db.user = require('./user.model');
 db.role = require('./role.model');
 db.service= require('./services.model');
 db.membershipBenefits= require('./membershipBenefits.model');
+db.jobCategory = require('./jobCategoy.model');
+db.job = require('./job.model');
 //db.howItWorks= require('./howItWorks.model');
 module.exports = db;
