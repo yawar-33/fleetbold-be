@@ -1,18 +1,21 @@
 const db = require('../models');
 
-const Service = db.howItWorks
-exports.create = async (_req, res) => {
+const Testimonial = db.testimonial;
+exports.createTestimonial = async (_req, res) => {
   try {
-    const {title, description} = _req.body;
+    const {name,designation,content,image,inActive} = _req.body;
 
-    if (!title || !description) {
-      throw new Error('title, description is required');
+    if (!name || !content ) {
+      throw new Error('name, content is required');
     }
 
     // Create a new Service
-    const newService = new Service({
-      title,
-      description,
+    const newService = new Testimonial({
+      name,
+      designation,
+      content,
+      image, 
+      inActive
     });
 
     // Save the service to the database
@@ -24,15 +27,15 @@ exports.create = async (_req, res) => {
   }
 };
 
-exports.update = async (_req, res) => {
+exports.updateTestimonial = async (_req, res) => {
   try {
-    const {id, title, description, icon} = _req.body;
+    const {id,name,designation,content,image,inActive} = _req.body;
 
     if (!id) {
       throw new Error('id field is required');
     }
 
-    const service = await Service.findOne({
+    const service = await Testimonial.findOne({
       _id: id,
     });
 
@@ -40,11 +43,14 @@ exports.update = async (_req, res) => {
       res.status(500).message('Record not found');
     }
 
-    const updatedService = await Service.findOneAndUpdate(
+    const updatedService = await Testimonial.findOneAndUpdate(
       {_id: id},
       {
-        title,
-        description,
+      name,
+      designation,
+      content,
+      image,
+      inActive
       },
       {new: true, upsert: false, runValidators: true}
     );
@@ -55,7 +61,7 @@ exports.update = async (_req, res) => {
   }
 };
 
-exports.delete = async (_req, res) => {
+exports.deleteTestimonial = async (_req, res) => {
   try {
     const { id } = _req.params;
 
@@ -63,7 +69,7 @@ exports.delete = async (_req, res) => {
       throw new Error('ID is required');
     }
 
-    const deletedService = await Service.findByIdAndDelete(id);
+    const deletedService = await Testimonial.findByIdAndDelete(id);
 
     if (!deletedService) {
       return res.status(404).json({ message: 'Record not found' });
@@ -74,11 +80,9 @@ exports.delete = async (_req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
-exports.getAll = async (_req, res) => {
-  try {
-    const services = await Service.find();
+exports.getAllTestimonial = async (_req, res) => {
+  try {  
+    const services = await Testimonial.find();
 
     res.status(200).json({
       message: 'Data fetched successfully!',
@@ -88,4 +92,3 @@ exports.getAll = async (_req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-

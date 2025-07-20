@@ -1,18 +1,21 @@
 const db = require('../models');
 
-const Service = db.howItWorks
-exports.create = async (_req, res) => {
-  try {
-    const {title, description} = _req.body;
+const Pricing = db.pricing;
 
-    if (!title || !description) {
-      throw new Error('title, description is required');
+exports.createPricingPlan = async (_req, res) => {
+  try {
+    const {name, description,features,price} = _req.body;
+
+    if (!name || !description ) {
+      throw new Error('name, description is required');
     }
 
     // Create a new Service
-    const newService = new Service({
-      title,
+    const newService = new Pricing({
+      name,
       description,
+      features,
+      price,
     });
 
     // Save the service to the database
@@ -24,15 +27,15 @@ exports.create = async (_req, res) => {
   }
 };
 
-exports.update = async (_req, res) => {
+exports.updatePricingPlan = async (_req, res) => {
   try {
-    const {id, title, description, icon} = _req.body;
+    const {id, name, description, price,features} = _req.body;
 
     if (!id) {
       throw new Error('id field is required');
     }
 
-    const service = await Service.findOne({
+    const service = await Pricing.findOne({
       _id: id,
     });
 
@@ -40,11 +43,13 @@ exports.update = async (_req, res) => {
       res.status(500).message('Record not found');
     }
 
-    const updatedService = await Service.findOneAndUpdate(
+    const updatedService = await Pricing.findOneAndUpdate(
       {_id: id},
       {
-        title,
+        name,
         description,
+        features,
+        price,
       },
       {new: true, upsert: false, runValidators: true}
     );
@@ -55,7 +60,7 @@ exports.update = async (_req, res) => {
   }
 };
 
-exports.delete = async (_req, res) => {
+exports.deletePricingPlan = async (_req, res) => {
   try {
     const { id } = _req.params;
 
@@ -63,7 +68,7 @@ exports.delete = async (_req, res) => {
       throw new Error('ID is required');
     }
 
-    const deletedService = await Service.findByIdAndDelete(id);
+    const deletedService = await Pricing.findByIdAndDelete(id);
 
     if (!deletedService) {
       return res.status(404).json({ message: 'Record not found' });
@@ -76,12 +81,12 @@ exports.delete = async (_req, res) => {
 };
 
 
-exports.getAll = async (_req, res) => {
+exports.getAllPricingPlan = async (_req, res) => {
   try {
-    const services = await Service.find();
+    const services = await Pricing.find();
 
     res.status(200).json({
-      message: 'Data fetched successfully!',
+      message: 'Pricing Plan fetched successfully!',
       data: services,
     });
   } catch (err) {
