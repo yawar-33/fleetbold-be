@@ -17,4 +17,5 @@ db.membershipBenefits= require('./membershipBenefits.model');
 db.howItWorks= require('./howItWorks.model');
 db.testimonial= require('./testimonial.model');
 db.pricing= require('./pricing.model');
+db.faq= require('./faq.model');
 module.exports = db;

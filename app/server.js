@@ -16,6 +16,7 @@ const membershipBenefitsRoutes = require('./routes/membershipBenefits.routes');
 const howItWorksRoutes = require('./routes/howItWorks.routes');
 const testimonialRoutes = require('./routes/testimonial.routes');
 const pricingPlanRoutes = require('./routes/pricing.routes');
+const faqRoutes = require('./routes/faq.routes');
 const server = express();
 
 // Enable security headers with helmet
@@ -77,4 +78,5 @@ server.use('/api/membershipBenefits', membershipBenefitsRoutes);
 server.use('/api/howItWorks', howItWorksRoutes)
 server.use('/api/testimonial', testimonialRoutes)
 server.use('/api/pricingPlan', pricingPlanRoutes)
+server.use('/api/faq', faqRoutes)
 module.exports = server;
