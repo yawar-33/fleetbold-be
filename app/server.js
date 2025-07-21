@@ -16,6 +16,9 @@ const membershipBenefitsRoutes = require('./routes/membershipBenefits.routes');
 const jobCategoryRoutes = require('./routes/jobCategory.routes');
 const jobRoutes = require('./routes/job.routes');
 //const howItWorksRoutes = require('./routes/howItWorks.routes');
+const howItWorksRoutes = require('./routes/howItWorks.routes');
+const testimonialRoutes = require('./routes/testimonial.routes');
+const pricingPlanRoutes = require('./routes/pricing.routes');
 const server = express();
 
 // Enable security headers with helmet
@@ -26,8 +29,8 @@ server.use(compression());
 
 // Set up CORS for specific origins
 const corsOptions = {
- origin: clientConfig.ORIGIN,
-  //origin:'http://localhost:3000'
+ //origin: clientConfig.ORIGIN,
+  origin:'http://localhost:3000'
 };
 server.use(cors(corsOptions));
 
@@ -77,4 +80,7 @@ server.use('/api/membershipBenefits', membershipBenefitsRoutes);
 server.use('/api/jobCategory', jobCategoryRoutes);
 server.use('/api/job', jobRoutes);
 //server.use('/api/howItWorks', howItWorksRoutes)
+server.use('/api/howItWorks', howItWorksRoutes)
+server.use('/api/testimonial', testimonialRoutes)
+server.use('/api/pricingPlan', pricingPlanRoutes)
 module.exports = server;
