@@ -27,7 +27,7 @@ exports.createFAQ = async (_req, res) => {
 
 exports.updateFAQ = async (_req, res) => {
   try {
-    const {question, answer} = _req.body;
+    const {question, answer,id} = _req.body;
 
     if (!id) {
       throw new Error('id field is required');
