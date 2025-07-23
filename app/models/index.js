@@ -20,4 +20,6 @@ db.job = require('./job.model');
 db.howItWorks= require('./howItWorks.model');
 db.testimonial= require('./testimonial.model');
 db.pricing= require('./pricing.model');
+db.faq= require('./faq.model');
+db.hero= require('./hero.model');
 module.exports = db;
