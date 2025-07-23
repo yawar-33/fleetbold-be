@@ -30,11 +30,35 @@ exports.createHeroSection = async (_req, res) => {
 
 exports.updateHeroSection = async (_req, res) => {
   try {
-    const updated = await HeroSection.findByIdAndUpdate(_req.params.id, _req.body, { new: true });
-    if (!updated) return res.status(404).json({ message: "Hero section not found" });
-    res.json(updated);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+    const {id, badge,headline, subheadline,buttonText,buttonLink} = _req.body;
+
+    if (!id) {
+      throw new Error('id field is required');
+    }
+
+    const heroSection = await HeroSection.findOne({
+      _id: id,
+    });
+
+    if (!heroSection) {
+      res.status(500).message('HeroSection not found');
+    }
+
+    const updatedService = await HeroSection.findOneAndUpdate(
+      {_id: id},
+      {
+       badge,
+        headline,
+        subheadline,
+        buttonText,
+        buttonLink
+      },
+      {new: true, upsert: false, runValidators: true}
+    );
+
+    return res.status(200).json({message: 'HeroSection updated successfully!'});
+  } catch (error) {
+    res.status(500).json({message: error.message});
   }
 };
 

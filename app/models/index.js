@@ -19,4 +19,5 @@ db.testimonial= require('./testimonial.model');
 db.pricing= require('./pricing.model');
 db.faq= require('./faq.model');
 db.hero= require('./hero.model');
+db.navItem= require('./navItems.model');
 module.exports = db;

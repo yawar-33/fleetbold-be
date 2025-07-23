@@ -5,7 +5,7 @@ const pricingPlanSchema = new mongoose.Schema({
   price: { type: String, required: true },            // e.g. "$9.99/month"
   description: { type: String, default: '' },         // e.g. "FREE TRIAL for 30 days"
   features: [{ type: String }],                       // List of features      // true or false
-  
+inActive: { type: Boolean, default: false },
 });
 
 const Pricing = mongoose.model('Pricing', pricingPlanSchema);

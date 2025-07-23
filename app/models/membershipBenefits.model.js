@@ -13,6 +13,10 @@ const membershipBenefitsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+   inActive: {
+    type: Boolean,
+    default: false,
+  },
 }); 
 
 const MembershipBenefits = mongoose.model('membershipBenefits', membershipBenefitsSchema);
