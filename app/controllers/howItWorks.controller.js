@@ -1,6 +1,30 @@
 const db = require('../models');
-
 const Service = db.howItWorks
+const HowItWorksHeader = db.howItWorksHeader;
+
+// Helper function to update header references
+const updateHeaderReferences = async () => {
+  try {
+    const allServices = await Service.find();
+    const serviceIds = allServices.map(service => service._id);
+    
+    let header = await HowItWorksHeader.findOne({ isActive: true });
+    if (!header) {
+      header = new HowItWorksHeader({
+        headerTitle: 'How It Works',
+        headerDescription: 'Our Simple 3-Step Process',
+        howItWorksItems: serviceIds,
+        isActive: true
+      });
+    } else {
+      header.howItWorksItems = serviceIds;
+    }
+    await header.save();
+  } catch (error) {
+    console.error('Error updating header references:', error);
+  }
+};
+
 exports.create = async (_req, res) => {
   try {
     const {title, description} = _req.body;
@@ -17,6 +41,9 @@ exports.create = async (_req, res) => {
 
     // Save the service to the database
     await newService.save();
+
+      // Auto-update header references
+    await updateHeaderReferences();
 
     res.status(201).json({message: 'Created successfully!'});
   } catch (err) {
@@ -49,6 +76,9 @@ exports.update = async (_req, res) => {
       {new: true, upsert: false, runValidators: true}
     );
 
+       // Auto-update header references (in case order needs to be maintained)
+    await updateHeaderReferences();
+
     return res.status(200).json({message: 'Record updated successfully!'});
   } catch (error) {
     res.status(500).json({message: error.message});
@@ -68,6 +98,8 @@ exports.delete = async (_req, res) => {
     if (!deletedService) {
       return res.status(404).json({ message: 'Record not found' });
     }
+  // Auto-update header references
+    await updateHeaderReferences();
 
     res.status(200).json({ message: 'Record deleted successfully!' });
   } catch (err) {

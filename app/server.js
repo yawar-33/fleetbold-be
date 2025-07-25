@@ -12,11 +12,17 @@ const morgan = require('../morgan-config'); // Import the custom Morgan configur
 const rolesSeeding = require('./seed/role.seed');
 const userRoutes = require('./routes/user.routes');
 const servicesRoutes = require('./routes/services.routes');
+const servicesHeaderRoutes = require('./routes/servicesHeader.routes')
 const membershipBenefitsRoutes = require('./routes/membershipBenefits.routes');
+const membershipHeaderRoutes = require('./routes/membershipHeader.routes');
 const howItWorksRoutes = require('./routes/howItWorks.routes');
+const howItWorksHeaderRoutes = require('./routes/howItWorksHeader.routes');
 const testimonialRoutes = require('./routes/testimonial.routes');
+const testimonialHeaderRoutes = require('./routes/testimonialHeader.routes');
 const pricingPlanRoutes = require('./routes/pricing.routes');
+const pricingHeaderRoutes = require('./routes/pricingHeader.routes');
 const faqRoutes = require('./routes/faq.routes');
+const faqHeaderRoutes = require('./routes/faqHeader.routes');
 const heroRoutes = require('./routes/hero.routes');
 const navItemRoutes = require('./routes/navItem.routes');
 const server = express();
@@ -76,11 +82,17 @@ server.get('/', (req, res) => {
 server.use('/api/auth', authRoutes);
 server.use('/api/user', userRoutes);
 server.use('/api/services', servicesRoutes);
+server.use('/api/servicesHeader', servicesHeaderRoutes);
 server.use('/api/membershipBenefits', membershipBenefitsRoutes);
+server.use('/api/membershipHeader', membershipHeaderRoutes)
 server.use('/api/howItWorks', howItWorksRoutes)
+server.use('/api/howItWorksHeader', howItWorksHeaderRoutes)
 server.use('/api/testimonial', testimonialRoutes)
+server.use('/api/testimonialHeader', testimonialHeaderRoutes)
 server.use('/api/pricingPlan', pricingPlanRoutes)
+server.use('/api/pricingHeader', pricingHeaderRoutes)
 server.use('/api/faq', faqRoutes)
+server.use('/api/faqHeader', faqHeaderRoutes)
 server.use('/api/hero', heroRoutes)
 server.use('/api/navItem', navItemRoutes)
 module.exports = server;

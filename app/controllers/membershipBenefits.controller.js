@@ -1,7 +1,29 @@
 const db = require('../models');
-
 const Service = db.membershipBenefits;
+const MembershipHeader = db.membershipHeader;
 
+// Helper function to update header references
+const updateHeaderReferences = async () => {
+  try {
+    const allServices = await Service.find();
+    const serviceIds = allServices.map(service => service._id);
+    
+    let header = await MembershipHeader.findOne({ isActive: true });
+    if (!header) {
+      header = new MembershipHeader({
+        headerTitle: 'Membership Benefits',
+        headerDescription: 'Our membership comes with the promise of endless creativity and dedicated support.',
+        benefitServices: serviceIds,
+        isActive: true
+      });
+    } else {
+      header.benefitServices = serviceIds;
+    }
+    await header.save();
+  } catch (error) {
+    console.error('Error updating header references:', error);
+  }
+};
 exports.createBenefits = async (_req, res) => {
   try {
     const {title, description, icon} = _req.body;
@@ -19,6 +41,9 @@ exports.createBenefits = async (_req, res) => {
 
     // Save the service to the database
     await newService.save();
+
+   // Auto-update header references
+    await updateHeaderReferences();
 
     res.status(201).json({message: 'Created successfully!'});
   } catch (err) {
@@ -52,6 +77,9 @@ exports.updateBenefits = async (_req, res) => {
       {new: true, upsert: false, runValidators: true}
     );
 
+    // Auto-update header references (in case order needs to be maintained)
+    await updateHeaderReferences();
+
     return res.status(200).json({message: 'Record updated successfully!'});
   } catch (error) {
     res.status(500).json({message: error.message});
@@ -72,6 +100,9 @@ exports.deleteBenefits = async (_req, res) => {
       return res.status(404).json({ message: 'Record not found' });
     }
 
+    // Auto-update header references
+    await updateHeaderReferences();
+    
     res.status(200).json({ message: 'Record deleted successfully!' });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -91,4 +122,5 @@ exports.getAllBenefits = async (_req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
 

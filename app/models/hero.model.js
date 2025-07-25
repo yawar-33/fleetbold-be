@@ -6,7 +6,7 @@ const heroSectionSchema = new mongoose.Schema({
   subheadline: { type: String, required: true },
   buttonText: { type: String, default: 'Get Started' },
   buttonLink: { type: String, default: '#' },  // e.g., download link or route
-  isActive: { type: Boolean, default: true },
+  inActive: { type: Boolean, default: false },
 });
 const HeroSection = mongoose.model('HeroSection', heroSectionSchema);
 

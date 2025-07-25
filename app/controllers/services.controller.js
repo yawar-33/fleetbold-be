@@ -1,7 +1,30 @@
 const db = require('../models');
-
+const ServicesHeader = db.servicesHeader;
 const Service = db.service;
 
+
+// Helper function to update header references
+const updateHeaderReferences = async () => {
+  try {
+    const allServices = await Service.find();
+    const serviceIds = allServices.map(service => service._id);
+    
+    let header = await ServicesHeader.findOne({ isActive: true });
+    if (!header) {
+      header = new ServicesHeader({
+        headerTitle: ' One Stop Design Solution',
+        headerDescription: 'From web design to branding, our expert team delivers creative solutions that elevate your brand and captivate your audience.',
+        services: serviceIds,
+        isActive: true
+      });
+    } else {
+      header.services = serviceIds;
+    }
+    await header.save();
+  } catch (error) {
+    console.error('Error updating header references:', error);
+  }
+};
 exports.createService = async (_req, res) => {
   try {
     const {title, description, icon} = _req.body;
@@ -19,7 +42,8 @@ exports.createService = async (_req, res) => {
 
     // Save the service to the database
     await newService.save();
-
+  // Auto-update header references
+    await updateHeaderReferences();
     res.status(201).json({message: 'Service created successfully!'});
   } catch (err) {
     res.status(500).json({message: err.message});
@@ -51,6 +75,8 @@ exports.updateService = async (_req, res) => {
       },
       {new: true, upsert: false, runValidators: true}
     );
+ // Auto-update header references (in case order needs to be maintained)
+    await updateHeaderReferences();
 
     return res.status(200).json({message: 'Service updated successfully!'});
   } catch (error) {
@@ -71,6 +97,9 @@ exports.deleteService = async (_req, res) => {
     if (!deletedService) {
       return res.status(404).json({ message: 'Service not found' });
     }
+
+     // Auto-update header references
+    await updateHeaderReferences();
 
     res.status(200).json({ message: 'Service deleted successfully!' });
   } catch (err) {
